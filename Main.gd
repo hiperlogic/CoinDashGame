@@ -1,10 +1,12 @@
 extends Node
 
+### Configurable properties (exposed to the Godot Inspector UI)
 export (PackedScene) var Coin
 export (PackedScene) var Powerup
 export (PackedScene) var Cactus
 export (int) var playtime
 
+### Internal Game Properties
 var level
 var score
 var time_left
@@ -23,6 +25,11 @@ func _ready():
 	$Player.hide()
 	pass # Replace with function body.
 
+###
+# Routine to reset the properties and start a new game
+# It is connected to the start_game signal from HUD, implemented in the HUD scene file.
+#
+###
 func new_game():
 	playing = true
 	level = 1
@@ -72,6 +79,11 @@ func _process(delta):
 		$PowerUpTimer.wait_time = rand_range(5,10)
 		$PowerUpTimer.start()
 
+###
+# Routine to stop the game to a game over state
+# It is connected to the timeout event/signal of the GameTimer (proper object)
+#
+###
 func _on_GameTimer_timeout():
 	time_left -= 1
 	$HUD.update_timer(time_left)
@@ -79,10 +91,18 @@ func _on_GameTimer_timeout():
 		game_over()
 	pass # Replace with function body.
 
+###
+# player hurt event handle to finish the game when player loses
+# It is connected to the hurt signal/event of Player (Scene)
+###
 func _on_Player_hurt():
 	game_over()
 	pass # Replace with function body.
 
+###
+# player Pickup event handle to update player score or game timer
+# It is connected to the pickup signal/event of Player (Scene)
+###
 func _on_Player_pickup(type):
 	match type:
 		"coin":
@@ -104,6 +124,12 @@ func game_over():
 	remove_obstacles()
 	$HUD.show_game_over()
 	$Player.die()
+
+###
+# Powerup Timeout routine to add a powerup in the scene when the Timer triggers
+# It is connected to the timeout signal/event of the PowerUpTimer
+#
+###
 
 func _on_PowerUpTimer_timeout():
 	var p = Powerup.instance()

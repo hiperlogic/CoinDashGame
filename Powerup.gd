@@ -36,20 +36,29 @@ func pickup():
 	$Tween.start()
 	$Lifetime.start()
 	
-
+###
+# Routine to remove the powerup from the game (no player picked)
+# It is connected to the Lifetime timeout signal/event (component)
+###
 func _on_Lifetime_timeout():
 	queue_free()
 	pass # Replace with function body.
 
-
+###
+# Routine to animate the powerup graphics
+# It is connected to the Timer timeout signal/event (component)
+###
 func _on_Timer_timeout():
 	$AnimatedSprite.frame = 0
 	$AnimatedSprite.play()
 	pass # Replace with function body.
 
-
+###
+# Routine to prevent the powerup to be spawned on top of obstacles
+# It is connecet to the area_entered signal from the PowerUp (Scene) Area2D object
+###
 func _on_Powerup_area_entered(area):
 	if area.is_in_group("obstacles"):
 		# Reposicione a moeda se ela coincidir com um obstáculo
 		position = Vector2(rand_range(0, screensize.x), rand_range(0, screensize.y))
-		pass # Replace with function body.
+	pass # Replace with function body.

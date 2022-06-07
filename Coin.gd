@@ -8,6 +8,10 @@ var screensize
 
 
 # Called when the node enters the scene tree for the first time.
+###
+# Configures the coin animation and the pickup animations tweens
+#
+###
 func _ready():
 	$Tween.interpolate_property(
 		$AnimatedSprite, 'scale',
@@ -27,26 +31,35 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+###
+# Routine to start the coin pickup animation
+#
+###
 func pickup():
 	monitoring = false
 	$Tween.start()	
 
-
+###
+# Routine to delete the coin object when animation completes
+# It is connected to the tween_completed signal from the Tween Object
+###
 func _on_Tween_tween_completed(object, key):
 	queue_free()
 	pass # Replace with function body.
 
-
+###
+# Routine to animate the powerup graphics
+# It is connected to the Timer timeout signal/event (component)
+###
 func _on_Timer_timeout():
 	$AnimatedSprite.frame = 0
 	$AnimatedSprite.play()
 	pass # Replace with function body.
 
-
+###
+# Routine to prevent the powerup to be spawned on top of obstacles
+# It is connecet to the area_entered signal from the PowerUp (Scene) Area2D object
+###
 func _on_Coin_area_entered(area):
 	if area.is_in_group("obstacles"):
 		# Reposicione a moeda se ela coincidir com um obstáculo
