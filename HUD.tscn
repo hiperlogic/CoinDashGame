@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Kenney Bold.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://HUD.gd" type="Script" id=2]
@@ -10,6 +10,12 @@ font_data = ExtResource( 1 )
 [sub_resource type="DynamicFont" id=2]
 size = 48
 font_data = ExtResource( 1 )
+
+[sub_resource type="QuadMesh" id=3]
+
+[sub_resource type="MeshTexture" id=4]
+mesh = SubResource( 3 )
+image_size = Vector2( 255, 82 )
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -68,4 +74,10 @@ margin_bottom = -42.0
 custom_fonts/font = SubResource( 2 )
 text = "Start"
 
+[node name="TouchScreenButton" type="TouchScreenButton" parent="StartButton"]
+position = Vector2( -1, -1 )
+normal = SubResource( 4 )
+visibility_mode = 1
+
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="StartButton/TouchScreenButton" to="." method="_on_StartButton_pressed"]

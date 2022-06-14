@@ -58,3 +58,5 @@ stream = ExtResource( 9 )
 [connection signal="timeout" from="GameTimer" to="." method="_on_GameTimer_timeout"]
 [connection signal="timeout" from="PowerUpTimer" to="." method="_on_PowerUpTimer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
+
+[editable path="HUD"]
