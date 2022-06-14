@@ -6,6 +6,9 @@ signal hurt
 export (int) var speed
 var velocity = Vector2()
 var screensize = Vector2(480, 720)
+
+# Direction of the touch from the player
+var target = Vector2()
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -40,10 +43,27 @@ func get_input():
 		velocity = velocity.normalized()*speed
 		
 
+func _input(event):
+	if event is InputEventScreenTouch and event.pressed:
+		print("Clicou")
+		target = event.position
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	get_input()
-	position+=velocity*delta
+	## Only for controllers or keyboard
+	#get_input()
+	velocity = (target - position).normalized()*speed
+	if (target - position).length() > 5:
+		position += velocity*delta
+	else:
+		velocity = Vector2()
+	
+	if velocity.length() > 0:
+		$AnimatedSprite.animation = "run"
+		$AnimatedSprite.flip_h = velocity.x < 0
+	else:
+		$AnimatedSprite.animation = "idle"
+	#position+=velocity*delta
 	position.x = clamp(position.x, 0, screensize.x)
 	position.y = clamp(position.y, 0, screensize.y)
 	
